@@ -44,7 +44,6 @@
 #include <linux/notifier.h>
 #include <linux/ratelimit.h>
 
-
 static u32 lowmem_debug_level;
 static short lowmem_adj[6] = {
 	0,
