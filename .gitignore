@@ -152,3 +152,8 @@ M30s/
 A50/
 A505/
 #################
+scripts/fmp/__pycache__/ELF.cpython-310.pyc
+scripts/fmp/__pycache__/IntegrityRoutine.cpython-310.pyc
+security/samsung/defex_lsm/defex_packed_rules.inc
+security/samsung/defex_lsm/pack_rules
+scripts/fmp/__pycache__/Utils.cpython-310.pyc
