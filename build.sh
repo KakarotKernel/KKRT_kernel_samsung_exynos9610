@@ -141,6 +141,7 @@ build(){
     echo " "
     echo -e "${BOLD}                          Compiling${RST}" && echo " "
     #
+    usr/magisk/update_magisk.sh
     make $KERNEL_CONFIG O=out CC=clang
     make -j$(nproc --all) O=out CC=clang
 }
