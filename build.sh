@@ -170,6 +170,19 @@ else
 fi
 }
 
+# UPLOAD
+upload(){
+    if [ -f $(pwd)/boot.img ];then
+        for i in boot.img
+        do
+        curl -F "document=@$i" --form-string "caption=" "https://api.telegram.org/bot${BOT_TOKEN}/sendDocument?chat_id=${CHAT_ID}&parse_mode=HTML"
+        done
+    else
+        echo -e "${RED}Boot image not found"
+    fi
+}
+
+#############################
 clear
 FLEX
 clean
@@ -177,5 +190,6 @@ clear && FLEX && START
 build
 END
 check_build
+upload
 
 ################ END OF LIFE ###############
