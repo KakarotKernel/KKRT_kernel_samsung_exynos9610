@@ -34,8 +34,3 @@ obj-$(CONFIG_SECURITY_DSMS)		+= samsung/dsms/
 # Object integrity file lists
 subdir-$(CONFIG_INTEGRITY)		+= integrity
 obj-$(CONFIG_INTEGRITY)			+= integrity/
-
-# KNOX DAR
-obj-$(CONFIG_SDP) += sdp/
-obj-$(CONFIG_SDP) += sdp/built-in.o
-
