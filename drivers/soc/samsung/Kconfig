@@ -10,11 +10,17 @@ config EXYNOS_CHIPID
 	depends on ARCH_EXYNOS
 	select SOC_BUS
 
-config EXYNOS_BCM_DBG
-	bool "EXYNOS_BCM_DBG driver support"
-	default y
+config BYPASS_CPU_THROTTLING
+	bool "CPU throttling bypass feature"
+	default n
+	depends on ECT
 	help
-	  Enable exynos-bcm_dbg driver support
+	  If enabled, cpu frequencies will not be throttled until temperature is above 95"C
+
+config EXYNOS_PMU
+	bool "Exynos PMU controller driver" if COMPILE_TEST
+	depends on ARCH_EXYNOS || ((ARM || ARM64) && COMPILE_TEST)
+	select EXYNOS_PMU_ARM_DRIVERS if ARM && ARCH_EXYNOS
 
 config EXYNOS_BCM_DBG_GNR
 	bool "EXYNOS_BCM_DBG general interface support"

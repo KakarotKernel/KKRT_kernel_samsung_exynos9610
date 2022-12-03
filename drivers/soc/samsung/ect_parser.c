@@ -266,6 +266,13 @@ err_pll_list_allocation:
 	return ret;
 }
 
+static int always_enable = 1;
+#ifdef CONFIG_BYPASS_CPU_THROTTLING
+static int prime_bypass_frequency = 2730000;
+static int big_bypass_frequency = 2400000;
+static int little_bypass_frequency = 1950000;
+#endif
+
 static int ect_parse_voltage_table(int parser_version, void **address, struct ect_voltage_domain *domain, struct ect_voltage_table *table)
 {
 	int num_of_data = domain->num_of_group * domain->num_of_level;
@@ -278,6 +285,7 @@ static int ect_parse_voltage_table(int parser_version, void **address, struct ec
 
 		table->level_en = *address;
 		*address += sizeof(int32_t) * domain->num_of_level;
+		table->level_en = &always_enable;
 	} else {
 		table->boot_level_idx = -1;
 		table->resume_level_idx = -1;
@@ -558,6 +566,24 @@ static int ect_parse_ap_thermal_function(int parser_version, void *address, stru
 		ect_parse_integer(&address, &range->lower_bound_temperature);
 		ect_parse_integer(&address, &range->upper_bound_temperature);
 		ect_parse_integer(&address, &range->max_frequency);
+
+#ifdef CONFIG_BYPASS_CPU_THROTTLING
+		//for big cores
+		if (range->max_frequency == 2730000||range->max_frequency == 2080000)
+			range->max_frequency = prime_bypass_frequency;
+		else if (range->max_frequency == 1560000||range->max_frequency == 1248000)
+			range->max_frequency = prime_bypass_frequency;
+		//for big cores
+		else if (range->max_frequency == 2400000||range->max_frequency == 2002000)
+			range->max_frequency = big_bypass_frequency;
+		else if (range->max_frequency == 1690000||range->max_frequency == 1066000)
+			range->max_frequency = big_bypass_frequency;
+		//for little cores
+		else if (range->max_frequency == 1950000||range->max_frequency == 1586000)
+			range->max_frequency = little_bypass_frequency;
+		else if (range->max_frequency == 1300000||range->max_frequency == 1157000)
+			range->max_frequency = little_bypass_frequency;
+#endif
 		ect_parse_integer(&address, &range->sw_trip);
 		ect_parse_integer(&address, &range->flag);
 	}
